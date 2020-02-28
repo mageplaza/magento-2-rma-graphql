@@ -34,7 +34,7 @@ type Mutation {
         comment: String @doc(description: "Comment")
         status_id: Int @doc(description: "Status Id")
         files: String @doc(description: "Files")
-        request_item: [MpRmaRequestItemsFilterInput]! @doc(description: "RMA Customer Requests Item")
+        request_item: [MpRmaRequestItemsInput]! @doc(description: "RMA Customer Requests Item")
     ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateRequest") @doc(description: "Create a new Request")
 }
 
@@ -90,7 +90,7 @@ type MpRmaRequestShippingLabelsOutput {
   request_id: Int @doc(description: "Request Id")
 }
 
-input MpRmaRequestItemsFilterInput {
+input MpRmaRequestItemsInput {
     product_id: Int @doc(description: "Product Id")
     qty_rma: Float @doc(description: "Qty Rma")
     reason: String @doc(description: "Reason")

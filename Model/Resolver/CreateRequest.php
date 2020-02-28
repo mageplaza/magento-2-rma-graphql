@@ -39,6 +39,7 @@ class CreateRequest extends AbstractRMARequest
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         parent::resolve($field, $context, $info, $value, $args);
+
         $this->checkCustomer($args[Request::ORDER_INCREMENT_ID], $context);
         $items = [];
 

@@ -23,17 +23,16 @@ declare(strict_types=1);
 
 namespace Mageplaza\RMAGraphQl\Model\Resolver;
 
-use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthenticationException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Mageplaza\CurrencyFormatter\Plugin\Sale\Order;
+use Magento\GraphQl\Model\Query\Resolver\Context;
 use Mageplaza\RMA\Helper\Data;
-use Magento\Cms\Model\Template\FilterProvider;
 use Mageplaza\RMA\Model\Api\RequestManagement;
 use Mageplaza\RMA\Model\Request\ReplyFactory;
 use Mageplaza\RMA\Model\RequestFactory;
@@ -52,22 +51,46 @@ abstract class AbstractRMARequest implements ResolverInterface
      */
     protected $helperData;
 
+    /**
+     * @var RequestManagement
+     */
     protected $requestManagement;
 
+    /**
+     * @var ReplyFactory
+     */
     protected $replyFactory;
 
+    /**
+     * @var RequestFactory
+     */
     protected $requestFactory;
 
+    /**
+     * @var ItemFactory
+     */
     protected $itemFactory;
 
+    /**
+     * @var GetCustomer
+     */
     protected $getCustomer;
 
+    /**
+     * @var OrderInterface
+     */
     protected $order;
 
     /**
-     * SizeChartDataProvider constructor.
+     * AbstractRMARequest constructor.
      *
      * @param Data $helperData
+     * @param RequestManagement $requestManagement
+     * @param ReplyFactory $replyFactory
+     * @param RequestFactory $requestFactory
+     * @param ItemFactory $itemFactory
+     * @param GetCustomer $getCustomer
+     * @param OrderInterface $order
      */
     public function __construct(
         Data $helperData,
@@ -78,13 +101,13 @@ abstract class AbstractRMARequest implements ResolverInterface
         GetCustomer $getCustomer,
         OrderInterface $order
     ) {
-        $this->helperData     = $helperData;
+        $this->helperData        = $helperData;
         $this->requestManagement = $requestManagement;
-        $this->replyFactory = $replyFactory;
-        $this->requestFactory = $requestFactory;
-        $this->itemFactory = $itemFactory;
-        $this->getCustomer = $getCustomer;
-        $this->order = $order;
+        $this->replyFactory      = $replyFactory;
+        $this->requestFactory    = $requestFactory;
+        $this->itemFactory       = $itemFactory;
+        $this->getCustomer       = $getCustomer;
+        $this->order             = $order;
     }
 
     /**
@@ -104,9 +127,20 @@ abstract class AbstractRMARequest implements ResolverInterface
         }
     }
 
-    public function checkCustomer($orderIncrement, $context) {
+    /**
+     * @param string $orderIncrement
+     * @param Context $context
+     *
+     * @throws GraphQlAuthorizationException
+     * @throws GraphQlNoSuchEntityException
+     * @throws InputException
+     * @throws GraphQlAuthenticationException
+     * @throws GraphQlInputException
+     */
+    public function checkCustomer($orderIncrement, $context)
+    {
         $customer = $this->getCustomer->execute($context);
-        $order = $this->order->loadByIncrementId($orderIncrement);
+        $order    = $this->order->loadByIncrementId($orderIncrement);
 
         if ($customer->getId() !== $order->getCustomerId()) {
             throw new InputException(__('Something went wrong, please check the data again.'));

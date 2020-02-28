@@ -38,6 +38,7 @@ class RMARequestProvider extends AbstractRMARequest
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         parent::resolve($field, $context, $info, $value, $args);
+
         $data = [];
 
         foreach ($this->requestManagement->getMine($context->getUserId())->getItems() as $item) {

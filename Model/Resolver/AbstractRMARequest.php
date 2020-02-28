@@ -39,6 +39,7 @@ use Mageplaza\RMA\Model\RequestFactory;
 use Mageplaza\RMA\Model\Request\ItemFactory;
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\Builder as SearchCriteriaBuilder;
 
 /**
  * Class RMADataProvider
@@ -82,6 +83,11 @@ abstract class AbstractRMARequest implements ResolverInterface
     protected $order;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteria;
+
+    /**
      * AbstractRMARequest constructor.
      *
      * @param Data $helperData
@@ -91,6 +97,7 @@ abstract class AbstractRMARequest implements ResolverInterface
      * @param ItemFactory $itemFactory
      * @param GetCustomer $getCustomer
      * @param OrderInterface $order
+     * @param SearchCriteriaBuilder $searchCriteria
      */
     public function __construct(
         Data $helperData,
@@ -99,7 +106,8 @@ abstract class AbstractRMARequest implements ResolverInterface
         RequestFactory $requestFactory,
         ItemFactory $itemFactory,
         GetCustomer $getCustomer,
-        OrderInterface $order
+        OrderInterface $order,
+        SearchCriteriaBuilder $searchCriteria
     ) {
         $this->helperData        = $helperData;
         $this->requestManagement = $requestManagement;
@@ -108,6 +116,7 @@ abstract class AbstractRMARequest implements ResolverInterface
         $this->itemFactory       = $itemFactory;
         $this->getCustomer       = $getCustomer;
         $this->order             = $order;
+        $this->searchCriteria    = $searchCriteria;
     }
 
     /**

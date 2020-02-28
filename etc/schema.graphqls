@@ -17,7 +17,11 @@
 # @license     https://www.mageplaza.com/LICENSE.txt
 
 type Customer {
-    mp_rma:[MpRMACustomersRequestOutput] @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARequestProvider")
+    mp_rma(
+        filter: MpRmaRequestsFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")
+        pageSize: Int = 5 @doc(description: "How many items should show on the page?")
+        currentPage: Int = 1 @doc(description: "Allow page number to start with 1")
+    ):MpRmaRequestsListOutput @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARequestProvider")
 }
 
 type Mutation {
@@ -36,6 +40,27 @@ type Mutation {
         files: String @doc(description: "Files")
         request_item: [MpRmaRequestItemsInput]! @doc(description: "RMA Customer Requests Item")
     ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateRequest") @doc(description: "Create a new Request")
+}
+
+input MpRmaRequestsFilterInput {
+    request_id: FilterTypeInput @doc(description: "Request Id")
+    order_id: FilterTypeInput @doc(description: "Order Id")
+    order_increment_id: FilterTypeInput @doc(description: "Order Increment Id")
+    increment_id: FilterTypeInput @doc(description: "Increment Id")
+    status_id: FilterTypeInput @doc(description: "Status Id")
+    is_canceled: FilterTypeInput @doc(description: "Is Canceled")
+    store_id: FilterTypeInput @doc(description: "Store Id")
+    comment: FilterTypeInput @doc(description: "Comment")
+    files: FilterTypeInput @doc(description: "Files")
+    last_responded_by: FilterTypeInput @doc(description: "Last Responded By")
+    customer_email: FilterTypeInput @doc(description: "Customer Email")
+    updated_at: FilterTypeInput @doc(description: "Updated At")
+    created_at: FilterTypeInput @doc(description: "Created At")
+}
+
+type MpRmaRequestsListOutput {
+    total_count: Int @doc(description: "The total number of results returned when a query is applied"),
+    items: [MpRMACustomersRequestOutput] @doc(description: "Requests data is satisfied")
 }
 
 type MpRMACustomersRequestOutput {

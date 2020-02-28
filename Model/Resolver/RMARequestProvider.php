@@ -23,8 +23,11 @@ declare(strict_types=1);
 
 namespace Mageplaza\RMAGraphQl\Model\Resolver;
 
+use Magento\Framework\Api\Search\SearchCriteriaInterface;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Mageplaza\RMA\Api\SearchResult\RequestSearchResultInterface;
 
 /**
  * Class RMARequestProvider
@@ -39,15 +42,50 @@ class RMARequestProvider extends AbstractRMARequest
     {
         parent::resolve($field, $context, $info, $value, $args);
 
-        $data = [];
+        $this->validateArgs($args);
+        $searchCriteria = $this->searchCriteria->build('mp_rma', $args);
+        $searchCriteria->setCurrentPage($args['currentPage']);
+        $searchCriteria->setPageSize($args['pageSize']);
+        $searchResult = $this->getSearchResult($context->getUserId(), $searchCriteria);
 
-        foreach ($this->requestManagement->getMine($context->getUserId())->getItems() as $item) {
+        return [
+            'total_count' => $searchResult->getTotalCount(),
+            'items'       => $searchResult->getItems(),
+        ];
+    }
+
+    /**
+     * @param int $customerId
+     * @param SearchCriteriaInterface $searchCriteria
+     *
+     * @return RequestSearchResultInterface|mixed
+     */
+    public function getSearchResult($customerId, $searchCriteria)
+    {
+        $searchResult = $this->requestManagement->getMine($customerId, $searchCriteria);
+
+        foreach ($searchResult->getItems() as $item) {
             $item->setRequestItem($item->getRequestItem());
             $item->setRequestReply($item->getRequestReply());
             $item->setRequestShippingLabel($item->getRequestShippingLabel());
-            $data[] = $item;
         }
 
-        return $data;
+        return $searchResult;
+    }
+
+    /**
+     * @param array $args
+     *
+     * @throws GraphQlInputException
+     */
+    private function validateArgs(array $args): void
+    {
+        if (isset($args['currentPage']) && $args['currentPage'] < 1) {
+            throw new GraphQlInputException(__('currentPage value must be greater than 0.'));
+        }
+
+        if (isset($args['pageSize']) && $args['pageSize'] < 1) {
+            throw new GraphQlInputException(__('pageSize value must be greater than 0.'));
+        }
     }
 }

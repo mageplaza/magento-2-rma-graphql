@@ -55,7 +55,7 @@ class FilterArgument implements FieldEntityAttributesInterface
     {
         $fields = [];
         /** @var Field $field */
-        foreach ($this->config->getConfigElement('CustomerRequest')->getFields() as $field) {
+        foreach ($this->config->getConfigElement('MpRMACustomersRequestOutput')->getFields() as $field) {
             $fields[$field->getName()] = '';
         }
 

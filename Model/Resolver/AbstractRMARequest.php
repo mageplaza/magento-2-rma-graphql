@@ -152,7 +152,7 @@ abstract class AbstractRMARequest implements ResolverInterface
         $order    = $this->order->loadByIncrementId($orderIncrement);
 
         if ($customer->getId() !== $order->getCustomerId()) {
-            throw new InputException(__('Something went wrong, please check the data again.'));
+            throw new InputException(__('This order is not belong to you, please check again.'));
         }
     }
 }

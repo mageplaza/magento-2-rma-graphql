@@ -1,0 +1,104 @@
+# Mageplaza
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Mageplaza.com license that is
+# available through the world-wide-web at this URL:
+# https://www.mageplaza.com/LICENSE.txt
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade this extension to newer
+# version in the future.
+#
+# @category    Mageplaza
+# @package     Mageplaza_RMAGraphQl
+# @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+# @license     https://www.mageplaza.com/LICENSE.txt
+
+type Customer {
+    mp_rma:[MpRMACustomersRequestOutput] @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARequestProvider")
+}
+
+type Mutation {
+    cancelRequest (
+        request_id: Int! @doc(description: "Request ID")
+    ): Boolean @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CancelRequest") @doc(description: "Cancel the request")
+    replyRequest (
+        request_id: Int! @doc(description: "Request Id")
+        content: String @doc(description: "Content")
+        files: String @doc(description: "Files")
+    ): MpRmaRequestReplyOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\ReplyRequest") @doc(description: "Reply the request")
+    createRequest (
+        order_increment_id: String! @doc(description: "Order Increment Id")
+        comment: String @doc(description: "Comment")
+        status_id: Int @doc(description: "Status Id")
+        files: String @doc(description: "Files")
+        request_item: [MpRmaRequestItemsFilterInput]! @doc(description: "RMA Customer Requests Item")
+    ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateRequest") @doc(description: "Create a new Request")
+}
+
+type MpRMACustomersRequestOutput {
+    request_id: Int @doc(description: "Request Id")
+    order_id: Int @doc(description: "Order Id")
+    order_increment_id: String @doc(description: "Order Increment Id")
+    increment_id: String @doc(description: "Increment Id")
+    status_id: Int @doc(description: "Status Id")
+    is_canceled: Int @doc(description: "Is Canceled")
+    store_id: Int @doc(description: "Store Id")
+    comment: String @doc(description: "Comment")
+    files: String @doc(description: "Files")
+    last_responded_by: String @doc(description: "Last Responded By")
+    customer_email: String @doc(description: "Customer Email")
+    updated_at: String @doc(description: "Updated At")
+    created_at: String @doc(description: "Created At")
+    request_item: [MpRmaRequestItemsOutput] @doc(description: "RMA Customer Requests Item")
+    request_reply: [MpRmaRequestReplyOutput] @doc(description: "RMA Customer Requests Reply")
+    request_shipping_label: [MpRmaRequestShippingLabelsOutput] @doc(description: "RMA Customer Requests Shipping Label")
+}
+
+type MpRmaRequestItemsOutput {
+    item_id: Int @doc(description: "Item Id")
+    request_id: Int @doc(description: "Request Id")
+    product_id: Int @doc(description: "Product Id")
+    order_item_id: Int @doc(description: "Order Item Id")
+    name: String @doc(description: "Name")
+    sku: String @doc(description: "Sku")
+    qty_rma: Float @doc(description: "Qty Rma")
+    price: Float @doc(description: "Price")
+    price_returned: Float @doc(description: "Price Returned")
+    reason: String @doc(description: "Reason")
+    solution: String @doc(description: "Solution")
+    additional_fields: String @doc(description: "Additional Fields")
+    created_at: String @doc(description: "Created At")
+}
+
+type MpRmaRequestReplyOutput {
+  reply_id: Int @doc(description: "Reply Id")
+  request_id: Int @doc(description: "Request Id")
+  is_customer_notified: Int @doc(description: "Is Customer Notified")
+  is_visible_on_front: Int @doc(description: "Is Visible On Front")
+  author_name: String @doc(description: "Author Name")
+  type: Int @doc(description: "Type")
+  content: String @doc(description: "Content")
+  files: String @doc(description: "Files")
+  created_at: String @doc(description: "Created At")
+}
+
+type MpRmaRequestShippingLabelsOutput {
+  shipping_label_id: Int @doc(description: "Shipping Label Id")
+  request_id: Int @doc(description: "Request Id")
+}
+
+input MpRmaRequestItemsFilterInput {
+    product_id: Int @doc(description: "Product Id")
+    qty_rma: Float @doc(description: "Qty Rma")
+    reason: String @doc(description: "Reason")
+    solution: String @doc(description: "Solution")
+    additional_fields: [MpRmaAdditionalFieldsInput] @doc(description: "Additional Fields")
+}
+
+input MpRmaAdditionalFieldsInput {
+    value: String @doc(description: "Value")
+    content: String @doc(description: "Content")
+}

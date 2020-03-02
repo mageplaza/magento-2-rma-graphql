@@ -126,7 +126,7 @@ abstract class AbstractRMARequest implements ResolverInterface
     {
 
         if (!$this->helperData->isEnabled()) {
-            throw new GraphQlNoSuchEntityException(__('RMA is disabled.'));
+            return [];
         }
 
         if ($this->helperData->versionCompare('2.3.3')) {

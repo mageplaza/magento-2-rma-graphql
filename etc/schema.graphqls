@@ -25,15 +25,15 @@ type Customer {
 }
 
 type Mutation {
-    cancelRequest (
+    mpRMARequestCancel (
         request_id: Int! @doc(description: "Request ID")
     ): Boolean @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CancelRequest") @doc(description: "Cancel the request")
-    replyRequest (
+    mpRMARequestConversation (
         request_id: Int! @doc(description: "Request Id")
         content: String @doc(description: "Content")
         files: String @doc(description: "Files")
     ): MpRmaRequestReplyOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\ReplyRequest") @doc(description: "Reply the request")
-    createRequest (
+    mpRMARequest (
         order_increment_id: String! @doc(description: "Order Increment Id")
         comment: String @doc(description: "Comment")
         status_id: Int @doc(description: "Status Id")

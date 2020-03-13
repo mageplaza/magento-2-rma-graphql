@@ -26,6 +26,7 @@ namespace Mageplaza\RMAGraphQl\Model\Resolver;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\ConfigInterface;
 use Magento\Framework\GraphQl\Query\Resolver\Argument\FieldEntityAttributesInterface;
+use Mageplaza\RMA\Helper\Data;
 
 /**
  * Class FilterArgument
@@ -39,13 +40,20 @@ class FilterArgument implements FieldEntityAttributesInterface
     private $config;
 
     /**
+     * @var Data
+     */
+    protected $helperData;
+
+    /**
      * FilterArgument constructor.
      *
      * @param ConfigInterface $config
+     * @param Data $helperData
      */
-    public function __construct(ConfigInterface $config)
+    public function __construct(ConfigInterface $config, Data $helperData)
     {
-        $this->config = $config;
+        $this->config     = $config;
+        $this->helperData = $helperData;
     }
 
     /**
@@ -57,6 +65,10 @@ class FilterArgument implements FieldEntityAttributesInterface
         /** @var Field $field */
         foreach ($this->config->getConfigElement('MpRMACustomersRequestOutput')->getFields() as $field) {
             $fields[$field->getName()] = '';
+        }
+
+        if ($this->helperData->versionCompare('2.3.4')) {
+            return $fields;
         }
 
         return array_keys($fields);

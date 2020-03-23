@@ -31,13 +31,13 @@ type Mutation {
     mpRMARequestConversation (
         request_id: Int! @doc(description: "Request Id")
         content: String @doc(description: "Content")
-        files: String @doc(description: "Files")
+        upload: [MpRmaUploadInput] @doc(description: "Files")
     ): MpRmaRequestReplyOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\ReplyRequest") @doc(description: "Reply the request")
     mpRMARequest (
         order_increment_id: String! @doc(description: "Order Increment Id")
         comment: String @doc(description: "Comment")
         status_id: Int @doc(description: "Status Id")
-        files: String @doc(description: "Files")
+        upload: [MpRmaUploadInput] @doc(description: "Files")
         request_item: [MpRmaRequestItemsInput]! @doc(description: "RMA Customer Requests Item")
     ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateRequest") @doc(description: "Create a new Request")
 }
@@ -121,6 +121,12 @@ input MpRmaRequestItemsInput {
     reason: String @doc(description: "Reason")
     solution: String @doc(description: "Solution")
     additional_fields: [MpRmaAdditionalFieldsInput] @doc(description: "Additional Fields")
+}
+
+input MpRmaUploadInput {
+    name: String @doc(description: "Name")
+    type: String @doc(description: "Type")
+    base64_encoded_data: String @doc(description: "Base64 Encoded Data")
 }
 
 input MpRmaAdditionalFieldsInput {

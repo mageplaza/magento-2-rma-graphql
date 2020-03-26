@@ -73,7 +73,7 @@ type MpRMACustomersRequestOutput {
     is_canceled: Int @doc(description: "Is Canceled")
     store_id: Int @doc(description: "Store Id")
     comment: String @doc(description: "Comment")
-    files: String @doc(description: "Files")
+    files: [String] @doc(description: "Files")
     last_responded_by: String @doc(description: "Last Responded By")
     customer_email: String @doc(description: "Customer Email")
     updated_at: String @doc(description: "Updated At")
@@ -107,7 +107,7 @@ type MpRmaRequestReplyOutput {
   author_name: String @doc(description: "Author Name")
   type: Int @doc(description: "Type")
   content: String @doc(description: "Content")
-  files: String @doc(description: "Files")
+  files: [String] @doc(description: "Files")
   created_at: String @doc(description: "Created At")
 }
 

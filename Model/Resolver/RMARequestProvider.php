@@ -51,6 +51,38 @@ class RMARequestProvider extends AbstractRMARequest
         return [
             'total_count' => $searchResult->getTotalCount(),
             'items'       => $searchResult->getItems(),
+            'page_info'   => $this->getPageInfo($searchResult, $args)
+        ];
+    }
+
+    /**
+     * @param SearchCriteriaInterface $searchResult
+     * @param array $args
+     *
+     * @return array
+     * @throws GraphQlInputException
+     */
+    private function getPageInfo($searchResult, $args)
+    {
+        $totalPages  = ceil($searchResult->getTotalCount() / $args['pageSize']);
+        $currentPage = $args['currentPage'];
+
+        if ($currentPage > $totalPages && $searchResult->getTotalCount() > 0) {
+            throw new GraphQlInputException(
+                __(
+                    'currentPage value %1 specified is greater than the %2 page(s) available.',
+                    [$currentPage, $totalPages]
+                )
+            );
+        }
+
+        return [
+            'pageSize'        => $args['pageSize'],
+            'currentPage'     => $currentPage,
+            'hasNextPage'     => $currentPage < $totalPages,
+            'hasPreviousPage' => $currentPage > 1,
+            'startPage'       => 1,
+            'endPage'         => $totalPages,
         ];
     }
 

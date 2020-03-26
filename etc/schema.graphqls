@@ -59,8 +59,9 @@ input MpRmaRequestsFilterInput {
 }
 
 type MpRmaRequestsListOutput {
-    total_count: Int @doc(description: "The total number of results returned when a query is applied"),
+    total_count: Int @doc(description: "The total number of results returned when a query is applied")
     items: [MpRMACustomersRequestOutput] @doc(description: "Requests data is satisfied")
+    page_info: PageInfo @doc(description: "An object that includes the pageSize and currentPage values specified in the query.")
 }
 
 type MpRMACustomersRequestOutput {
@@ -132,4 +133,13 @@ input MpRmaUploadInput {
 input MpRmaAdditionalFieldsInput {
     value: String @doc(description: "Value")
     content: String @doc(description: "Content")
+}
+
+type PageInfo {
+    pageSize: Int @doc(description: "How many items should show on the page.")
+    currentPage: Int @doc(description: "Specifies which page of results to return.")
+    hasNextPage: Boolean @doc(description: "Has next page.")
+    hasPreviousPage: Boolean @doc(description: "Has previous page.")
+    startPage: Int @doc(description: "Start page.")
+    endPage: Int @doc(description: "End page.")
 }

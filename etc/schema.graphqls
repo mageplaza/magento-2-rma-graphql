@@ -51,7 +51,6 @@ input MpRmaRequestsFilterInput {
     is_canceled: FilterTypeInput @doc(description: "Is Canceled")
     store_id: FilterTypeInput @doc(description: "Store Id")
     comment: FilterTypeInput @doc(description: "Comment")
-    files: FilterTypeInput @doc(description: "Files")
     last_responded_by: FilterTypeInput @doc(description: "Last Responded By")
     customer_email: FilterTypeInput @doc(description: "Customer Email")
     updated_at: FilterTypeInput @doc(description: "Updated At")

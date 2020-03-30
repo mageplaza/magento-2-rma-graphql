@@ -125,7 +125,6 @@ input MpRmaRequestItemsInput {
 
 input MpRmaUploadInput {
     name: String @doc(description: "Name")
-    type: String @doc(description: "Type")
     base64_encoded_data: String @doc(description: "Base64 Encoded Data")
 }
 

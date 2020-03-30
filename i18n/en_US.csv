@@ -1,5 +1,5 @@
-"RMA is disabled.","RMA is disabled."
 "The current customer isn't authorized.","The current customer isn't authorized."
-"This order is not belong to you, please check again.","This order is not belong to you, please check again."
+"This order does not belong to you, please check again.","This order does not belong to you, please check again."
+"currentPage value %1 specified is greater than the %2 page(s) available.","currentPage value %1 specified is greater than the %2 page(s) available."
 "currentPage value must be greater than 0.","currentPage value must be greater than 0."
 "pageSize value must be greater than 0.","pageSize value must be greater than 0."

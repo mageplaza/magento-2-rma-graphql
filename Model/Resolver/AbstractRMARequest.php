@@ -31,7 +31,7 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Magento\GraphQl\Model\Query\Resolver\Context;
+use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\RMA\Helper\Data;
 use Mageplaza\RMA\Model\Api\RequestManagement;
 use Mageplaza\RMA\Model\Request\ReplyFactory;
@@ -138,7 +138,7 @@ abstract class AbstractRMARequest implements ResolverInterface
 
     /**
      * @param string $orderIncrement
-     * @param Context $context
+     * @param ContextInterface $context
      *
      * @throws GraphQlAuthorizationException
      * @throws GraphQlNoSuchEntityException

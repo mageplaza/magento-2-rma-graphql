@@ -49,7 +49,7 @@ class CreateRequest extends AbstractRMARequest
 
         $request = $this->requestFactory->create()->setData($args);
         $request->setRequestItem($items);
-        $result = $this->requestManagement->save($request);
+        $result = $this->requestManagement->saveMine($request);
         $result->setRequestItem($result->getRequestItem());
         $result->setRequestReply($result->getRequestReply());
         $result->setRequestShippingLabel($result->getRequestShippingLabel());

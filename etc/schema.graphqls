@@ -47,7 +47,6 @@ type Mutation {
         order_increment_id: String! @doc(description: "Order Increment Id")
         guest_data: MpRmaGuestDataInput @doc(description: "Guest Data")
         comment: String @doc(description: "Comment")
-        status_id: Int @doc(description: "Status Id")
         upload: [MpRmaUploadInput] @doc(description: "Files")
         request_item: [MpRmaRequestItemsInput] @doc(description: "RMA Customer Requests Item")
     ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateGuestRequest") @doc(description: "Create a new Guest Request")

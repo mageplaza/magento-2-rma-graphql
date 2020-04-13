@@ -142,7 +142,7 @@ input MpRmaGuestDataInput {
     billing_last_name: String! @doc(description: "Billing Last Name")
     find_by: String! @doc(description: "Find By")
     email: String @doc(description: "Email")
-    zip: String @doc(description: "Zip code")
+    zip_code: String @doc(description: "Zip code")
 }
 
 input MpRmaAdditionalFieldsInput {

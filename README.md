@@ -1,4 +1,4 @@
-# Rma Graphql
+# Magento 2 RMA GraphQL (Support PWA)
 
 ## How to install
 
@@ -12,7 +12,7 @@ php bin/magento setup:static-content:deploy
 
 ## How to use
 
-To start working with **RMA GraphQL** in Magento, you need to:
+To start working with **RMA GraphQL** in Magento 2, you need to:
 
 - Use Magento 2.3.x. Return your site to developer mode
 - Install [chrome extension](https://chrome.google.com/webstore/detail/chromeiql/fkkiamalmpiidkljmicmjfbieiclmeij?hl=en) (currently does not support other browsers)

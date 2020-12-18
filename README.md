@@ -1,5 +1,7 @@
 # Magento 2 RMA GraphQL / PWA
 
+**Magento 2 RMA GraphQL is now a part of the Mageplaza RMA extension that adds GraphQL features. This supports PWA compatibility.**
+
 [Mageplaza RMA for Magento 2](https://www.mageplaza.com/magento-2-rma/) is a great tool that helps online stores deal with returns effectively. 
 
 With this extension, you can allow non-login customers who haven’t created an account to send requests for returning items they have placed orders. If your store allows guest visitors to place orders, this is incredibly helpful and convenient for them. The RMA link will be displayed clearly at the top or bottom of the homepage, so customers can quickly access it to send requests. 
@@ -11,8 +13,6 @@ The extension enables you to handle the return requests for an item, some items,
 Along with the basic order information, such as Order ID, Billing Last Name, Email, RMA information includes details essential to process the returns efficiently. Especially, the store admin can create additional fields for the RMA form, such as reasons for return, solution, and title of the request. Allowing customers to upload images to make their requests more reasonable by enclosing images of the current situation of the items they want to return, refund, or replace. There will be suggested reasons and solutions in the RMA form so that customers can quickly fill in the form and make it easier for store owners to understand customers’ requests and process it quickly. 
 
 Customers will get notification about the status of their requests, which is approved or rejected via email. Store owners and customers can also discuss and negotiate further via email to come to a final agreement. 
-
-The good news for you is that **Magento 2 RMA GraphQL is now a part of Mageplaza RMA extension that adds GraphQL features. This supports PWA compatibility.**
 
 ## 1. How to install
 

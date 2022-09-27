@@ -16,6 +16,12 @@
 # @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
 # @license     https://www.mageplaza.com/LICENSE.txt
 
+type Query {
+    mpRMAConfig(
+        storeId: String @doc(description: "Get Config by Store")
+    ):String @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\GetReasonAndSolution") @doc(description: "Query to get reason and solution data in config.")
+}
+
 type Customer {
     mp_rma(
         filter: MpRmaRequestsFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")

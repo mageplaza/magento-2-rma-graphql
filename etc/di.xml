@@ -25,6 +25,7 @@
         <arguments>
             <argument name="attributesInstances" xsi:type="array">
                 <item name="mp_rma" xsi:type="object">Mageplaza\RMAGraphQl\Model\Resolver\FilterArgument</item>
+                <item name="mp_rma_rules" xsi:type="object">Mageplaza\RMAGraphQl\Model\Resolver\RulesFilterArgument</item>
             </argument>
         </arguments>
     </type>

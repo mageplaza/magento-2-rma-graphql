@@ -18,8 +18,11 @@
 
 type Query {
     mpRMAConfig(
-        storeId: String @doc(description: "Get Config by Store")
-    ):String @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\GetReasonAndSolution") @doc(description: "Query to get reason and solution data in config.")
+        storeId: Int @doc(description: "Get Config by Store")
+    ):mpRMAConfigOutput @doc(description: "Query to get reason and solution data in config.") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\GetReasonAndSolution")
+    mp_rma_rules(
+        filter: MpRmaRulesFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")
+    ): [MpRmaRulesListOutput] @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARuleProvider")
 }
 
 type Customer {
@@ -28,12 +31,6 @@ type Customer {
         pageSize: Int = 5 @doc(description: "How many items should show on the page?")
         currentPage: Int = 1 @doc(description: "Allow page number to start with 1")
     ):MpRmaRequestsListOutput @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARequestProvider")
-}
-
-type Query {
-    mp_rma_rules(
-        filter: MpRmaRulesFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")
-    ): [MpRmaRulesListOutput] @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARuleProvider")
 }
 
 type Mutation {
@@ -78,6 +75,12 @@ input MpRmaRequestsFilterInput {
     customer_email: FilterTypeInput @doc(description: "Customer Email")
     updated_at: FilterTypeInput @doc(description: "Updated At")
     created_at: FilterTypeInput @doc(description: "Created At")
+}
+
+type mpRMAConfigOutput {
+    reason: [ReasonSolutionOutput] @doc(description: "Get RMA reason")
+    solution: [ReasonSolutionOutput] @doc(description: "Get RMA solution")
+    additional_field: [AdditionalFieldOutput] @doc(description: "Get RMA additional field")
 }
 
 type MpRmaRequestsListOutput {
@@ -202,6 +205,15 @@ type MpRmaRulesListOutput {
 type ReasonSolutionOutput {
     value: String @doc(description: "Rule name")
     content: String @doc(description: "Rule name")
+}
+
+type AdditionalFieldOutput {
+    value: String @doc(description: "Additional field value")
+    content: String @doc(description: "Additional field name")
+    type: String @doc(description: "Additional field type")
+    is_require: Boolean @doc(description: "Is require additional field")
+    sort: Int @doc(description: "Additional field Sort")
+    validation: String @doc(description: "Additional field validation")
 }
 
 type MpOrderListOuput {

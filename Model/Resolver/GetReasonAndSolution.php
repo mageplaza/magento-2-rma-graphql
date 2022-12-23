@@ -14,7 +14,7 @@
  * version in the future.
  *
  * @category    Mageplaza
- * @package     Mageplaza_StoreLocatorGraphQl
+ * @package     Mageplaza_RMAGraphQl
  * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
@@ -33,28 +33,63 @@ use Mageplaza\RMA\Helper\Data;
  */
 class GetReasonAndSolution extends AbstractRMARequest
 {
+    /**
+     * @param Field $field
+     * @param \Magento\Framework\GraphQl\Query\Resolver\ContextInterface $context
+     * @param ResolveInfo $info
+     * @param array|null $value
+     * @param array|null $args
+     *
+     * @return array
+     */
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
-        $data[] = [
+        return [
             'reason' => $this->getData('rma/reason'),
             'solution' => $this->getData('rma/solution'),
-            'additional_field' => $this->getData('rma/additional_field')
+            'additional_field' => $this->getDataAdditional()
         ];
-
-        return Data::jsonEncode($data);
     }
 
+    /**
+     * @param $config
+     *
+     * @return array
+     */
     public function getData($config)
     {
         $items = Data::jsonDecode($this->helperData->getRequestConfig($config));
         $options = [];
-
         if (count($items)) {
             foreach ($items['name'] as $value => $content) {
-                $options[] = compact('value', 'content');
+                $options[] =    [
+                    'value' => $value,
+                    'content' => $content
+                ];
             }
         }
+        return $options;
+    }
 
+    /**
+     * @return array
+     */
+    public function getDataAdditional()
+    {
+        $items = Data::jsonDecode($this->helperData->getRequestConfig('rma/additional_field'));
+        $options = [];
+        if (count($items)) {
+            foreach ($items['name'] as $value => $content) {
+                $options[] =    [
+                    'value'     => $value,
+                    'content'   => $content['title'],
+                    'type'      => $content['type'],
+                    'is_require'=> $content['is_require'],
+                    'sort'      => $content['sort'],
+                    'validation'=> $content['validation']
+                ];
+            }
+        }
         return $options;
     }
 }

@@ -16,6 +16,15 @@
 # @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
 # @license     https://www.mageplaza.com/LICENSE.txt
 
+type Query {
+    mpRMAConfig(
+        storeId: Int @doc(description: "Get Config by Store")
+    ):mpRMAConfigOutput @doc(description: "Query to get reason and solution data in config.") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\GetReasonAndSolution")
+    mp_rma_rules(
+        filter: MpRmaRulesFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")
+    ): [MpRmaRulesListOutput] @doc(description: "RMA Customer Requests") @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\RMARuleProvider")
+}
+
 type Customer {
     mp_rma(
         filter: MpRmaRequestsFilterInput @doc(description: "Identifies which MpRmaRequestsFilterInput attributes to search for and return.")
@@ -38,8 +47,19 @@ type Mutation {
         comment: String @doc(description: "Comment")
         status_id: Int @doc(description: "Status Id")
         upload: [MpRmaUploadInput] @doc(description: "Files")
-        request_item: [MpRmaRequestItemsInput]! @doc(description: "RMA Customer Requests Item")
+        request_item: [MpRmaRequestItemsInput] @doc(description: "RMA Customer Requests Item")
+        reason: String @doc(description: "Reason")
+        solution: String @doc(description: "Solution")
+        additional_fields: [MpRmaAdditionalFieldsInput] @doc(description: "Additional Fields")
     ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateRequest") @doc(description: "Create a new Request")
+    mpRMAGuestRequest (
+        order_increment_id: String! @doc(description: "Order Increment Id")
+        guest_data: MpRmaGuestDataInput @doc(description: "Guest Data")
+        comment: String @doc(description: "Comment")
+        upload: [MpRmaUploadInput] @doc(description: "Files")
+        request_item: [MpRmaRequestItemsInput] @doc(description: "RMA Customer Requests Item")
+    ): MpRMACustomersRequestOutput @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\CreateGuestRequest") @doc(description: "Create a new Guest Request")
+    mpRMAOrderList:[MpOrderListOuput] @resolver(class: "Mageplaza\\RMAGraphQl\\Model\\Resolver\\GetOrdersList") @doc(description: "Get orders list by customer")
 }
 
 input MpRmaRequestsFilterInput {
@@ -55,6 +75,12 @@ input MpRmaRequestsFilterInput {
     customer_email: FilterTypeInput @doc(description: "Customer Email")
     updated_at: FilterTypeInput @doc(description: "Updated At")
     created_at: FilterTypeInput @doc(description: "Created At")
+}
+
+type mpRMAConfigOutput {
+    reason: [ReasonSolutionOutput] @doc(description: "Get RMA reason")
+    solution: [ReasonSolutionOutput] @doc(description: "Get RMA solution")
+    additional_field: [AdditionalFieldOutput] @doc(description: "Get RMA additional field")
 }
 
 type MpRmaRequestsListOutput {
@@ -128,6 +154,13 @@ input MpRmaUploadInput {
     base64_encoded_data: String @doc(description: "Base64 Encoded Data")
 }
 
+input MpRmaGuestDataInput {
+    billing_last_name: String! @doc(description: "Billing Last Name")
+    find_by: String! @doc(description: "Find By")
+    email: String @doc(description: "Email")
+    zip_code: String @doc(description: "Zip code")
+}
+
 input MpRmaAdditionalFieldsInput {
     value: String @doc(description: "Value")
     content: String @doc(description: "Content")
@@ -140,4 +173,65 @@ type PageInfo {
     hasPreviousPage: Boolean @doc(description: "Has previous page.")
     startPage: Int @doc(description: "Start page.")
     endPage: Int @doc(description: "End page.")
+}
+
+input MpRmaRulesFilterInput {
+    rule_id: FilterTypeInput @doc(description: "Rule Id")
+    name: FilterTypeInput @doc(description: "Rule name")
+    status: FilterTypeInput @doc(description: "Rule status")
+    websites: FilterTypeInput @doc(description: "Status Id")
+    customer_group: FilterTypeInput @doc(description: "Is Canceled")
+    priority: FilterTypeInput @doc(description: "Store Id")
+    updated_at: FilterTypeInput @doc(description: "Updated At")
+    created_at: FilterTypeInput @doc(description: "Created At")
+}
+
+type MpRmaRulesListOutput {
+    rule_id: Int @doc(description: "Rule Id")
+    name: String @doc(description: "Rule name")
+    status: Int @doc(description: "Rule status")
+    description: String @doc(description: "Increment Id")
+    websites: Int @doc(description: "Status Id")
+    customer_group: String @doc(description: "Is Canceled")
+    priority: Int @doc(description: "Store Id")
+    conditions_serialized: String @doc(description: "Comment")
+    reason: [ReasonSolutionOutput] @doc(description: "Files")
+    solution: [ReasonSolutionOutput] @doc(description: "Last Responded By")
+    additional_field: [ReasonSolutionOutput] @doc(description: "Customer Email")
+    updated_at: String @doc(description: "Updated At")
+    created_at: String @doc(description: "Created At")
+}
+
+type ReasonSolutionOutput {
+    value: String @doc(description: "Rule name")
+    content: String @doc(description: "Rule name")
+}
+
+type AdditionalFieldOutput {
+    value: String @doc(description: "Additional field value")
+    content: String @doc(description: "Additional field name")
+    type: String @doc(description: "Additional field type")
+    is_require: Boolean @doc(description: "Is require additional field")
+    sort: Int @doc(description: "Additional field Sort")
+    validation: String @doc(description: "Additional field validation")
+}
+
+type MpOrderListOuput {
+    label: String @doc(description: "Order label of incream")
+    order_increment: String @doc(description: "Order id of customer")
+    order_id: Int @doc(description: "Order Id")
+    email: String @doc(description: "Customer email")
+    bill_lastname: String @doc(description: "Order billing last name")
+    zip_code: String @doc(description: "Order postal code")
+    items: [ProductItem] @doc(description: "Order product item")
+}
+
+type ProductItem {
+    item_id: Int @doc(description: "Item id")
+    product_id: Int @doc(description: "Order product id")
+    name: String @doc(description: "Order product name")
+    sku: String @doc(description: "Order product sku")
+    qty: Int @doc(description: "Item product qty")
+    mp_is_return: Boolean @doc(description: "Is product return")
+    mp_qty_rma: Int @doc(description: "Qty product returned")
 }

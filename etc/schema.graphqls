@@ -115,9 +115,10 @@ type MpRmaRequestItemsOutput {
     order_item_id: Int @doc(description: "Order Item Id")
     name: String @doc(description: "Name")
     sku: String @doc(description: "Sku")
-    qty_rma: Float @doc(description: "Qty Rma")
+    qty_rma: Int @doc(description: "Qty Rma")
     price: Float @doc(description: "Price")
     price_returned: Float @doc(description: "Price Returned")
+    currency: String @doc(description: "Price currency")
     reason: String @doc(description: "Reason")
     solution: String @doc(description: "Solution")
     additional_fields: String @doc(description: "Additional Fields")
@@ -125,25 +126,25 @@ type MpRmaRequestItemsOutput {
 }
 
 type MpRmaRequestReplyOutput {
-  reply_id: Int @doc(description: "Reply Id")
-  request_id: Int @doc(description: "Request Id")
-  is_customer_notified: Int @doc(description: "Is Customer Notified")
-  is_visible_on_front: Int @doc(description: "Is Visible On Front")
-  author_name: String @doc(description: "Author Name")
-  type: Int @doc(description: "Type")
-  content: String @doc(description: "Content")
-  files: [String] @doc(description: "Files")
-  created_at: String @doc(description: "Created At")
+    reply_id: Int @doc(description: "Reply Id")
+    request_id: Int @doc(description: "Request Id")
+    is_customer_notified: Int @doc(description: "Is Customer Notified")
+    is_visible_on_front: Int @doc(description: "Is Visible On Front")
+    author_name: String @doc(description: "Author Name")
+    type: Int @doc(description: "Type")
+    content: String @doc(description: "Content")
+    files: [String] @doc(description: "Files")
+    created_at: String @doc(description: "Created At")
 }
 
 type MpRmaRequestShippingLabelsOutput {
-  shipping_label_id: Int @doc(description: "Shipping Label Id")
-  request_id: Int @doc(description: "Request Id")
+    shipping_label_id: Int @doc(description: "Shipping Label Id")
+    request_id: Int @doc(description: "Request Id")
 }
 
 input MpRmaRequestItemsInput {
     product_id: Int @doc(description: "Product Id")
-    qty_rma: Float @doc(description: "Qty Rma")
+    qty_rma: Int @doc(description: "Qty Rma")
     reason: String @doc(description: "Reason")
     solution: String @doc(description: "Solution")
     additional_fields: [MpRmaAdditionalFieldsInput] @doc(description: "Additional Fields")

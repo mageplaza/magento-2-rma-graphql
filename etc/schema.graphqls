@@ -118,6 +118,7 @@ type MpRmaRequestItemsOutput {
     qty_rma: Int @doc(description: "Qty Rma")
     price: Float @doc(description: "Price")
     price_returned: Float @doc(description: "Price Returned")
+    currency: String @doc(description: "Price currency")
     reason: String @doc(description: "Reason")
     solution: String @doc(description: "Solution")
     additional_fields: String @doc(description: "Additional Fields")

@@ -78,6 +78,12 @@ input MpRmaRequestsFilterInput {
 }
 
 type mpRMAConfigOutput {
+    enabled: Boolean @doc(description: "RMA status enable")
+    location: Int @doc(description: "Display RMA Request Link at, 1: Top Link, 2: Footer Link")
+    policy: RmaPolicyOutput @doc(description: "RMA Policy Page")
+    each_item: Boolean @doc(description: "Allow RMA for Each Item of An Order")
+    allow_attachment: Boolean @doc(description: "Allow Uploading Attachments")
+    file_extensions: String @doc(description: "Allow File Formats")
     reason: [ReasonSolutionOutput] @doc(description: "Get RMA reason")
     solution: [ReasonSolutionOutput] @doc(description: "Get RMA solution")
     additional_field: [AdditionalFieldOutput] @doc(description: "Get RMA additional field")
@@ -203,6 +209,10 @@ type MpRmaRulesListOutput {
     created_at: String @doc(description: "Created At")
 }
 
+type RmaPolicyOutput {
+    identifier: String @doc(description: "RMA Policy Url")
+    policy_location: Int @doc(description: "Display RMA Policy Link on, 1: Top Link, 2: Footer Link, 3: RMA Request Page")
+}
 type ReasonSolutionOutput {
     value: String @doc(description: "Rule name")
     content: String @doc(description: "Rule name")

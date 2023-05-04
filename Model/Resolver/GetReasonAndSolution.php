@@ -45,8 +45,17 @@ class GetReasonAndSolution extends AbstractRMARequest
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         return [
-            'reason' => $this->getData('rma/reason'),
-            'solution' => $this->getData('rma/solution'),
+            'enabled'   => $this->helperData->isEnabled(),
+            'location'  => $this->helperData->getConfigGeneral('location'),
+            'policy'    => [
+                    'identifier' => $this->helperData->getConfigGeneral('policy'),
+                    'policy_location' => $this->helperData->getConfigGeneral('policy_location')
+                ],
+            'each_item' => $this->helperData->getModuleConfig('request/each_item'),
+            'allow_attachment'  => $this->helperData->getModuleConfig('request/allow_attachment'),
+            'file_extensions'   => $this->helperData->getModuleConfig('request/file_extensions'),
+            'reason'    => $this->getData('rma/reason'),
+            'solution'  => $this->getData('rma/solution'),
             'additional_field' => $this->getDataAdditional()
         ];
     }

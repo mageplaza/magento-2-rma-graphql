@@ -232,17 +232,26 @@ type MpOrderListOuput {
     order_increment: String @doc(description: "Order id of customer")
     order_id: Int @doc(description: "Order Id")
     email: String @doc(description: "Customer email")
-    bill_lastname: String @doc(description: "Order billing last name")
-    zip_code: String @doc(description: "Order postal code")
+    billing_address: BillingAddress @doc(description: "Order Id")
     items: [ProductItem] @doc(description: "Order product item")
 }
 
 type ProductItem {
     item_id: Int @doc(description: "Item id")
-    product_id: Int @doc(description: "Order product id")
-    name: String @doc(description: "Order product name")
-    sku: String @doc(description: "Order product sku")
+    product: ProductInterface @doc(description: "Order product")
     qty: Int @doc(description: "Item product qty")
     mp_is_return: Boolean @doc(description: "Is product return")
     mp_qty_rma: Int @doc(description: "Qty product returned")
+}
+
+type BillingAddress {
+    firstname: String @doc(description: "First name")
+    lastname: String @doc(description: "Last name")
+    region: String @doc(description: "Region")
+    region_id: String @doc(description: "Region Id")
+    street: String @doc(description: "Street")
+    city: String @doc(description: "City")
+    telephone: String @doc(description: "Telephone")
+    country_id: String @doc(description: "Country id")
+    postcode: String @doc(description: "Postcode")
 }
